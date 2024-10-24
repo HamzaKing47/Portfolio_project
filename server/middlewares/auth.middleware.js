@@ -1,17 +1,30 @@
 import { decodeToken } from "../utils/jwt.util.js";
 
 const authMiddleware = async (req, res, next) => {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
+  const token = authHeader
+    ? authHeader.split(" ")[0] === "Bearer"
+      ? authHeader.split(" ")[1]
+      : authHeader
+    : null;
 
   try {
     if (token) {
       const decodeInfo = decodeToken(token);
-      req.userId = decodeInfo;
-      next();
+
+      if (decodeInfo) {
+        req.user = decodeInfo; // Store decoded info as req.user
+        next();
+      } else {
+        res.status(403).send({
+          success: false,
+          message: "Token is invalid or expired!",
+        });
+      }
     } else {
       res.status(403).send({
         success: false,
-        message: "Access denied!",
+        message: "Access denied! No token provided",
       });
     }
   } catch (error) {
@@ -22,16 +35,23 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-const adminCheckMiddleware = async (req, res, next) => {
-  const { role } = req.user;
 
+const adminCheckMiddleware = async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.status(401).send({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const { role } = req.user; // Role should now be available in req.user
     if (role === "admin") {
       next();
     } else {
       res.status(403).send({
         success: false,
-        message: "Accessable for admin only!",
+        message: "Accessible for admin only!",
       });
     }
   } catch (error) {
@@ -41,5 +61,6 @@ const adminCheckMiddleware = async (req, res, next) => {
     });
   }
 };
+
 
 export { authMiddleware, adminCheckMiddleware };

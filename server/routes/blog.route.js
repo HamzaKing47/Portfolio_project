@@ -5,8 +5,20 @@ import {
   adminCheckMiddleware,
 } from "../middlewares/auth.middleware.js";
 
-const blogRoute = express.Router();
+const blogRouter = express.Router();
 
-blogRoute.post("/blog", authMiddleware, adminCheckMiddleware, addBlog);
+blogRouter.post("/blog", authMiddleware, adminCheckMiddleware, addBlog);
+blogRouter.get(
+  "/blog-image/:id",
+  authMiddleware,
+  adminCheckMiddleware,
+  addBlog
+);
+blogRouter.get(
+  "/blog-image/:id",
+  authMiddleware,
+  adminCheckMiddleware,
+  addBlog
+);
 
-export default blogRoute;
+export default blogRouter;

@@ -3,15 +3,15 @@ import "dotenv/config";
 import connectDb from "./db/config.js";
 import userRouter from "./routes/user.route.js";
 import formidableMiddleware from "./middlewares/formidable.middleware.js";
-import blogRoute from "./routes/blog.route.js";
+import blogRouter from "./routes/blog.route.js";
 
 const app = express();
 connectDb();
 
 app.use(express.json());
-app.use(formidableMiddleware())
+app.use(formidableMiddleware());
 
-app.use("/api/v1", userRouter, blogRoute);
+app.use("/api/v1", userRouter, blogRouter);
 
 const PORT = process.env.PORT;
 

@@ -23,10 +23,13 @@ const loginUser = async (req, res) => {
       });
     }
 
+    // Include the user's role in the token payload
+    const token = generateToken({ id: user._id, role: user.role });
+
     return res.status(200).send({
       success: true,
       message: "User logged in successfully",
-      token: generateToken({ id: user._id }),
+      token,
     });
   } catch (error) {
     return res.status(500).send({

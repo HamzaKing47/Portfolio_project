@@ -8,10 +8,18 @@ const addBlog = async (req, res) => {
   try {
     const newBlog = new Blog({ description, tags });
 
-    if (coverImage) {
-      newBlog.coverImage.data = await readFile(coverImage.path);
-      newBlog.coverImage.contentType = coverImage.type;
+    // Check if coverImage is provided and handle it as an array
+    if (coverImage && coverImage.length > 0) {
+      const imageFile = coverImage[0]; // Access the first image in the array
+      newBlog.coverImage.data = await readFile(imageFile.filepath); // Use filepath instead of path
+      newBlog.coverImage.contentType = imageFile.mimetype; // Use mimetype instead of type
+    } else {
+      return res.status(400).send({
+        success: false,
+        message: "File upload failed, coverImage.path is undefined.",
+      });
     }
+
     await newBlog.save();
 
     res.status(201).send({

@@ -14,16 +14,16 @@ const userModel = new Schema({
   },
   password: {
     type: String,
-    required:true,
-    minLength: [8, 'Password cannot be less than 8 characters.']
+    required: true,
+    minLength: [8, "Password cannot be less than 8 characters."],
   },
   role: {
     type: String,
-    default: 'customer',
-    enum: ['customer','admin']
-  }
+    default: "user",
+    enum: ["user", "admin"],
+  },
 });
 
-const User = mongoose.model('Users', userModel)
+const User = mongoose.model("Users", userModel);
 
-export default User
+export default User;

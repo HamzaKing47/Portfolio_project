@@ -3,7 +3,10 @@ import registerUser from "../controllers/user/registerUser.controller.js";
 import loginUser from "../controllers/user/loginUser.controller.js";
 import getUserInfo from "../controllers/user/getUserInfo.controller.js";
 import updateUserInfo from "../controllers/user/updateUserInfo.controller.js";
-import { adminCheckMiddleware, authMiddleware } from "../middlewares/auth.middleware.js";
+import {
+  adminCheckMiddleware,
+  authMiddleware,
+} from "../middlewares/auth.middleware.js";
 
 const userRouter = express.Router();
 
