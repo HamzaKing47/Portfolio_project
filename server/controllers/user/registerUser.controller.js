@@ -3,13 +3,12 @@ import { hashPassword } from "../../utils/bcrypt.util.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.fields;
+    const { name, email, password } = req.fields;
 
     const newUser = new User({
       name,
       email,
       password: await hashPassword(password),
-      role,
     });
     await newUser.save();
 

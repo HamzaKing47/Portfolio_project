@@ -1,8 +1,8 @@
-import Blog from "../../models/blog.model";
+import Blog from "../../models/blog.model.js";
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().select('-coverImage');
 
     if (!blogs) {
       res.status(404).send({

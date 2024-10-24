@@ -3,8 +3,8 @@ import mongoose, { Schema } from "mongoose";
 const resumeSchema = new Schema(
   {
     filePath: {
-      type: String,
-      reqired: true,
+      data: Buffer,
+      contentType: String,
     },
   },
   {

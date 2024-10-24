@@ -2,29 +2,29 @@ import { decodeToken } from "../utils/jwt.util.js";
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader
-    ? authHeader.split(" ")[0] === "Bearer"
-      ? authHeader.split(" ")[1]
-      : authHeader
-    : null;
+
+  if (!authHeader) {
+    return res.status(403).send({
+      success: false,
+      message: "Access denied! No token provided",
+    });
+  }
+
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : authHeader;
 
   try {
-    if (token) {
-      const decodeInfo = decodeToken(token);
+    const decodeInfo = decodeToken(token);
 
-      if (decodeInfo) {
-        req.user = decodeInfo; // Store decoded info as req.user
-        next();
-      } else {
-        res.status(403).send({
-          success: false,
-          message: "Token is invalid or expired!",
-        });
-      }
+    if (decodeInfo) {
+      req.user = decodeInfo; // Store decoded info as req.user
+      req.userId = decodeInfo.id;
+      next();
     } else {
       res.status(403).send({
         success: false,
-        message: "Access denied! No token provided",
+        message: "Token is invalid or expired!",
       });
     }
   } catch (error) {
@@ -34,7 +34,6 @@ const authMiddleware = async (req, res, next) => {
     });
   }
 };
-
 
 const adminCheckMiddleware = async (req, res, next) => {
   try {
@@ -61,6 +60,5 @@ const adminCheckMiddleware = async (req, res, next) => {
     });
   }
 };
-
 
 export { authMiddleware, adminCheckMiddleware };

@@ -2,16 +2,18 @@ import User from "../../models/user.model.js";
 
 const getUserInfo = async (req, res) => {
   try {
+    const loggedInUserId = req.user.id;
     const { id } = req.params;
+
+    if (loggedInUserId !== id) {
+      res.status(403).send({
+        success: false,
+        message: "You are not authorized to access this information.",
+      });
+    }
 
     const user = await User.findById(id);
 
-    if (!user) {
-      res.status(404).send({
-        success: false,
-        message: "User not exist",
-      });
-    }
     res.status(200).send({
       success: true,
       message: "User info fetched successfully",

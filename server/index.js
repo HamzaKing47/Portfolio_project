@@ -4,6 +4,10 @@ import connectDb from "./db/config.js";
 import userRouter from "./routes/user.route.js";
 import formidableMiddleware from "./middlewares/formidable.middleware.js";
 import blogRouter from "./routes/blog.route.js";
+import skillRouter from "./routes/skill.route.js";
+import resumeRouter from "./routes/resume.route.js";
+import projectRouter from "./routes/project.route.js";
+import contactRouter from "./routes/contact.route.js";
 
 const app = express();
 connectDb();
@@ -11,7 +15,15 @@ connectDb();
 app.use(express.json());
 app.use(formidableMiddleware());
 
-app.use("/api/v1", userRouter, blogRouter);
+app.use(
+  "/api/v1",
+  userRouter,
+  blogRouter,
+  skillRouter,
+  resumeRouter,
+  projectRouter,
+  contactRouter
+);
 
 const PORT = process.env.PORT;
 
