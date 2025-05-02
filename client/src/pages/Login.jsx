@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
-function Login() {
+function LoginPage() {
   const navigate = useNavigate();
   // State to hold form input data
   const [formData, setFormData] = useState({
@@ -136,4 +136,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

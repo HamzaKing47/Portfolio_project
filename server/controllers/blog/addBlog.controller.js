@@ -3,12 +3,16 @@ import { readFile } from "fs/promises";
 
 const addBlog = async (req, res) => {
   try {
-    const { description, tags } = req.fields;
-    const file = req.files.coverImage ? req.files.coverImage[0] : null; // Get the first file if it exists
+    const { title, excerpt, description, tags } = req.fields;
+    const file = req.files.coverImage ? req.files.coverImage[0] : null;
 
-    const newBlog = new Blog({ description, tags });
+    const newBlog = new Blog({
+      title,
+      excerpt,
+      description,
+      tags,
+    });
 
-    // Check if the cover image is provided and read the file data
     if (file) {
       newBlog.coverImage = {
         data: await readFile(file.filepath),
@@ -21,6 +25,7 @@ const addBlog = async (req, res) => {
     res.status(201).send({
       success: true,
       message: "New blog added successfully",
+      blog: newBlog,
     });
   } catch (error) {
     res.status(500).send({

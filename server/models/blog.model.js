@@ -1,17 +1,22 @@
 import mongoose, { Schema } from "mongoose";
 
-const blogSchema = new Schema(
+const blogSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: true,
+    },
+    excerpt: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       required: true,
-      trim: true,
     },
-    tags: [
-      {
-        type: String,
-      },
-    ],
+    tags: {
+      type: [String],
+    },
     coverImage: {
       data: Buffer,
       contentType: String,
@@ -19,6 +24,7 @@ const blogSchema = new Schema(
   },
   { timestamps: true }
 );
+
 
 const Blog = mongoose.model("Blogs", blogSchema);
 

@@ -10,7 +10,7 @@ const initialValues = {
   password: "",
 };
 
-const SignUp = () => {
+const SignUpPage = () => {
   const navigate = useNavigate();
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -18,7 +18,6 @@ const SignUp = () => {
       initialValues,
       validationSchema: signUpSchema,
       onSubmit: async (values, actions) => {
-        console.log("Submitting form with values:", values); // For debugging
 
         try {
           const response = await axios.post(
@@ -28,8 +27,6 @@ const SignUp = () => {
               headers: { "Content-Type": "multipart/form-data" },
             }
           );
-
-          console.log("Response from server:", response.data); // Debugging response
 
           if (response.data && response.data.success) {
             toast.success("User registered successfully!");
@@ -170,4 +167,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;

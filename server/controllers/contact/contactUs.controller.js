@@ -4,19 +4,19 @@ import "dotenv/config";
 
 const contactUs = async (req, res) => {
   try {
-    const { message } = req.fields;
-    const userId = req.userId;
+    const { message, email, name } = req.fields;
+    // const userId = req.userId;
 
-    const user = await User.findById(userId);
+    // const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(404).send({
-        success: false,
-        message: "User not found",
-      });
-    }
+    // if (!user) {
+    //   return res.status(404).send({
+    //     success: false,
+    //     message: "User not found",
+    //   });
+    // }
 
-    const fullMessage = `Name: ${user.name}\nEmail: ${user.email}\n\nMessage:\n${message}`;
+    const fullMessage = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -27,17 +27,17 @@ const contactUs = async (req, res) => {
     });
 
     const mailOptions = {
-      from: process.env.SMTP_USER, 
+      from: email, 
       to: process.env.RECEIVING_EMAIL, 
       subject: "New Contact Inquiry",
       text: fullMessage, 
     };
 
-    await transporter.sendMail(mailOptions);
+    const response = await transporter.sendMail(mailOptions);
 
     res.status(200).send({
       success: true,
-      message: "Message sent successfully",
+      message: "Message sent successfully"
     });
   } catch (error) {
     res.status(500).send({

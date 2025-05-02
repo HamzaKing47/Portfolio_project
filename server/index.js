@@ -15,7 +15,11 @@ connectDb();
 
 app.use(express.json());
 app.use(formidableMiddleware());
-app.use(cors());
+// In backend
+app.use(cors({
+  origin: 'http://localhost:5173', // Your frontend URL
+  credentials: true
+}));
 
 app.use(
   "/api/v1",

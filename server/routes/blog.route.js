@@ -12,7 +12,7 @@ import editBlog from "../controllers/blog/editBlog.controller.js";
 const blogRouter = express.Router();
 
 blogRouter.post("/blog", authMiddleware, adminCheckMiddleware, addBlog);
-blogRouter.get("/blog-image/:id", authMiddleware, getBlogImage);
+blogRouter.get("/blog-image/:id", getBlogImage);
 blogRouter.get("/blogs", authMiddleware, getAllBlogs);
 blogRouter.delete(
   "/blog/:id",
