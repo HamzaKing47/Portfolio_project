@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Menu from "./menu";
+import Menu from "./Menu";
 
 const Layout = () => {
   return (
