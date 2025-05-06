@@ -16,11 +16,7 @@ connectDb();
 app.use(express.json());
 app.use(formidableMiddleware());
 // In backend
-app.use(cors({
-  // origin: 'http://localhost:5173', // Your frontend URL
-  origin: 'https://ameerhamzashahid.netlify.app', // Your frontend URL
-  credentials: true
-}));
+app.use(cors());
 
 app.use(
   "/api/v1",
