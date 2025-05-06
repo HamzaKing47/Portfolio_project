@@ -4,12 +4,15 @@ import { useRef } from "react";
 
 const AboutPage = () => {
   const skills = [
-    { name: "HTML5", percentage: "95%" },
-    { name: "CSS3", percentage: "95%" },
     { name: "JavaScript", percentage: "75%" },
     { name: "ReactJS", percentage: "75%" },
     { name: "NodeJS", percentage: "87%" },
-    { name: "Bootstrap", percentage: "70%" },
+    { name: "ExpressJS", percentage: "80%" },
+    { name: "TailwindCSS", percentage: "80%" },
+    { name: "MongoDB", percentage: "75%" },
+    { name: "Bootstrap", percentage: "90%" },
+    { name: "NextJS", percentage: "50%" },
+    { name: "TypeScript", percentage: "50%" },
   ];
 
   const skillsRef = useRef(null);
@@ -69,11 +72,11 @@ const AboutPage = () => {
                 {[
                   "Software Engineer & Recent Graduate",
                   "3-month MERN Stack training at Devsaar IT Solutions",
-                  "2 years of freelancing experience on Fiverr (Level 1 Seller)",
+                  "2 years freelancing on Fiverr (Level 1 Seller)",
                   "Certified Website Designer and Developer from PSDF",
                   "Specialized in building full-stack web applications",
                   "Proven track record of client-focused solutions",
-                  "Expertise in secure and user-friendly application development",
+                  "Expert in secure, user-friendly application development",
                 ].map((item, index) => (
                   <motion.li
                     key={index}
@@ -110,10 +113,10 @@ const AboutPage = () => {
               className="grid grid-cols-2 gap-5 h-min mt-2 mr-10"
             >
               {[
-                { value: "50+", label: "Projects Completed" },
+                { value: "40+", label: "Projects Completed" },
                 { value: "2+", label: "Years of Experience" },
-                { value: "25+", label: "Happy Clients" },
-                { value: "70+", label: "Customer Reviews" },
+                { value: "30+", label: "Happy Clients" },
+                { value: "20+", label: "Customer Reviews" },
               ].map((stat, index) => (
                 <motion.div
                   key={index}
