@@ -1,4 +1,3 @@
-// src/pages/HomePage.jsx
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
@@ -12,12 +11,12 @@ const HomePage = () => {
           <div className="w-full md:w-1/3 flex justify-center md:justify-start md:mb-0 md:ml-[80px] border-4 border-green-500 rounded-2xl p-6">
             <div className="group relative w-[220px] sm:w-[260px] md:w-[290px] lg:w-[320px] xl:w-[360px] h-[294px] sm:h-[347px] md:h-[387px] lg:h-[427px] xl:h-[480px]">
               <img
-                src="dp.jpg"
+                src="public/dp.jpg"
                 alt="Profile Picture"
                 className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out opacity-100 group-hover:opacity-0"
               />
               <img
-                src="hoveredDp.jpg"
+                src="public/hoveredDp.jpg"
                 alt="Hovered Profile Picture"
                 className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100"
               />
