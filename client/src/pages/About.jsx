@@ -112,7 +112,7 @@ const AboutPage = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="grid grid-cols-2 gap-5 h-min mt-2 mr-20"
+              className="grid grid-cols-2 gap-5 h-min mt-2 mr-10"
             >
               {[
                 { value: "40+", label: "Projects Completed" },
