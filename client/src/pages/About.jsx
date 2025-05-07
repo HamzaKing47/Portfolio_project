@@ -42,7 +42,7 @@ const AboutPage = () => {
       className="bg-gray-900 text-gray-100 font-sans min-h-screen h-full flex flex-col"
     >
       <section className="container mx-auto px-4 py-12 flex-grow">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto mx-2">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -112,7 +112,7 @@ const AboutPage = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="grid grid-cols-2 gap-5 h-min mt-2 mr-20"
+              className="grid grid-cols-2 gap-5 h-min mt-2"
             >
               {[
                 { value: "40+", label: "Projects Completed" },
