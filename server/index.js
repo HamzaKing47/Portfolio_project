@@ -9,6 +9,7 @@ import resumeRouter from "./routes/resume.route.js";
 import projectRouter from "./routes/project.route.js";
 import contactRouter from "./routes/contact.route.js";
 import cors from 'cors'
+import { message } from "./utils/message.util.js";
 
 const app = express();
 connectDb();
@@ -33,3 +34,7 @@ const PORT = process.env.PORT;
 app.listen(PORT || 3000, () => {
   console.log(`App is listening at http://localhost:${PORT}`);
 });
+
+app.get("/", (req, res) => {
+  res.contentType("html").status(200).send(message);
+})
