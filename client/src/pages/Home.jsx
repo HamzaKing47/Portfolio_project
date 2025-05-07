@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
+import API_URL from "../config";
 
 const HomePage = () => {
   return (
@@ -85,7 +86,7 @@ const HomePage = () => {
             >
               <div className="flex justify-center mt-6">
                 <Link
-                  to="/v1/resume/download-resume"
+                  to={`${API_URL}/resume/download-resume`}
                   className="bg-green-600 text-white font-semibold text-lg md:text-xl py-4 px-8 rounded-lg shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-gradient-to-r hover:from-green-400 hover:to-green-600 hover:shadow-[0_10px_25px_rgba(72,199,116,0.8)] hover:-translate-y-1 hover:tracking-wider"
                   target="_blank"
                   rel="noopener noreferrer"

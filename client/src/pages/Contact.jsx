@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import API_URL from "../config";
 
 const ContactPage = () => {
   const contactRef = useRef(null);
@@ -22,7 +23,7 @@ const ContactPage = () => {
     try {
 
       // Sending form data as form-data
-      const response = await axios.post("/v1/contact", formData, {
+      const response = await axios.post(`${API_URL}/contact`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

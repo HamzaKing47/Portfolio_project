@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import API_URL from "../config";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function LoginPage() {
       // const token= localStorage.getItem("token")
 
       // Sending form data as form-data
-      const response = await axios.post("/v1/user-login", formData, {
+      const response = await axios.post(`${API_URL}/user-login`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           // "Authorization":token,

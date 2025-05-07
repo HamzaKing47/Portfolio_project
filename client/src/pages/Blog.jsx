@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import API_URL from "../config"; 
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +16,7 @@ const Blog = () => {
 
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("/v1/blogs", {
+        const response = await axios.get(`${API_URL}/blogs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

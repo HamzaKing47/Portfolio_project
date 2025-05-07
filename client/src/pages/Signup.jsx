@@ -3,6 +3,7 @@ import { signUpSchema } from "../schemas";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import axios from "axios";
+import API_URL from "../config";
 
 const initialValues = {
   name: "",
@@ -21,7 +22,7 @@ const SignUpPage = () => {
 
         try {
           const response = await axios.post(
-            "http://localhost:4000/api/v1/user",
+            `${API_URL}/user`,
             values,
             {
               headers: { "Content-Type": "multipart/form-data" },
