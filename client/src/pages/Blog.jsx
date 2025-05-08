@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion, useInView } from "framer-motion";
-import API_URL from "../config"; 
+import API_URL from "../config";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -71,7 +71,7 @@ const Blog = () => {
                   {post.cover ? (
                     <div className="relative h-48 rounded-lg mb-4 overflow-hidden">
                       <img
-                        src={post.cover}
+                        src={`${API_URL}/blog-image/${post._id}`}
                         alt={post.title}
                         className="w-full h-full object-cover"
                       />
