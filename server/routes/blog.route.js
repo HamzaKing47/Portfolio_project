@@ -8,12 +8,15 @@ import getBlogImage from "../controllers/blog/getBlogImage.controller.js";
 import deleteBlog from "../controllers/blog/deleteBlog.controller.js";
 import getAllBlogs from "../controllers/blog/getAllBlogs.controller.js";
 import editBlog from "../controllers/blog/editBlog.controller.js";
+import { getRelatedBlogs } from "../controllers/blog/getBlogDetails.controller.js";
 
 const blogRouter = express.Router();
 
 blogRouter.post("/blog", authMiddleware, adminCheckMiddleware, addBlog);
 blogRouter.get("/blog-image/:id", getBlogImage);
 blogRouter.get("/blogs", authMiddleware, getAllBlogs);
+blogRouter.get("/blog/:id", authMiddleware, getAllBlogs);
+blogRouter.get("/blog/related/:id", authMiddleware, getRelatedBlogs);
 blogRouter.delete(
   "/blog/:id",
   authMiddleware,

@@ -1,11 +1,14 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion, useInView } from "framer-motion";
 import API_URL from "../config";
+import Loading from "../components/Loading"; // <-- Import your Loading component
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const blogRef = useRef(null);
@@ -28,6 +31,8 @@ const Blog = () => {
           console.error("Blog fetch error:", error);
           if (error.response?.status === 401) navigate("/login");
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -52,7 +57,11 @@ const Blog = () => {
             ref={blogRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {posts.length > 0 ? (
+            {loading ? (
+              <div className="col-span-full flex justify-center items-center py-12">
+                <Loading />
+              </div>
+            ) : posts.length > 0 ? (
               posts.map((post, index) => (
                 <motion.div
                   key={post._id}
@@ -139,7 +148,7 @@ const Blog = () => {
                 animate={{ opacity: 1 }}
                 className="col-span-full text-center text-gray-400 py-12"
               >
-                No articles found.
+                Loading, please wait...
               </motion.div>
             )}
           </div>
