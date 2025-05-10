@@ -136,7 +136,7 @@ const BlogDetails = () => {
           </Link>
 
           <article className="bg-gray-800 rounded-xl p-6 md:p-8 mb-12">
-          {/* Modified image section in the return statement */}
+            {/* Modified image section in the return statement */}
             {post?.coverImage && (
               <>
                 <div
@@ -157,16 +157,35 @@ const BlogDetails = () => {
                     className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
                     onClick={() => setIsImageFullscreen(false)}
                   >
-                    <div className="max-w-full max-h-full">
+                    <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
+                      {/* Close Button */}
+                      <button
+                        onClick={() => setIsImageFullscreen(false)}
+                        className="absolute top-4 right-4 bg-gray-800 bg-opacity-70 text-white rounded-full p-2 hover:bg-opacity-100 transition"
+                        aria-label="Close image"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+
+                      {/* Fullscreen Image */}
                       <img
                         src={`${API_URL}/blog-image/${post?._id}`}
                         alt={post?.title}
-                        className="max-w-full max-h-full object-contain"
-                        onClick={(e) => e.stopPropagation()}
+                        className="max-w-full max-h-[90vh] object-contain rounded"
                       />
                     </div>
                   </div>
                 )}
+
               </>
             )}
 
