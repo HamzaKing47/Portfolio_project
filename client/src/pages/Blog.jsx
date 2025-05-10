@@ -148,7 +148,7 @@ const Blog = () => {
                 animate={{ opacity: 1 }}
                 className="col-span-full text-center text-gray-400 py-12"
               >
-                Loading, please wait...
+                <Loading/>
               </motion.div>
             )}
           </div>
