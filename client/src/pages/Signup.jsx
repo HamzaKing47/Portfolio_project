@@ -19,62 +19,45 @@ const SignUpPage = () => {
       initialValues,
       validationSchema: signUpSchema,
       onSubmit: async (values, actions) => {
-
         try {
-          const response = await axios.post(
-            `${API_URL}/user`,
-            values,
-            {
-              headers: { "Content-Type": "multipart/form-data" },
-            }
-          );
-
-          if (response.data && response.data.success) {
+          const response = await axios.post(`${API_URL}/user`, values);
+          if (response.data?.success) {
             toast.success("User registered successfully!");
             navigate("/login");
-          } else if (response.data) {
-            toast.error(
-              response.data.message || "Registration failed. Please try again."
-            );
           } else {
-            toast.error("Unexpected response. Please check the server.");
+            toast.error(response.data?.message || "Registration failed. Please try again.");
           }
         } catch (error) {
-          // Improved error logging for debugging
-          if (error.response) {
-            console.error("Error response from server:", error.response.data);
-            toast.error(
-              error.response.data.message || "Failed to submit form. Try again."
-            );
-          } else {
-            console.error("Error submitting form:", error.message);
-            toast.error("Failed to submit form. Try again.");
-          }
+          console.error("Registration error:", error);
+          toast.error(error.response?.data?.message || "Registration failed. Please try again.");
         }
-
         actions.resetForm();
       },
     });
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img alt="Tech Ex" src="/screen.png" className="mx-auto h-20 w-auto" />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Register your account
-        </h2>
-      </div>
+    <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <img 
+            alt="Tech Ex" 
+            src="/screen.png" 
+            className="mx-auto h-20 w-auto mb-6 rounded-lg "
+          />
+          <h2 className="text-3xl font-bold tracking-tight">
+            Create New Account
+          </h2>
+          <p className="mt-2 text-gray-400">
+            Join our community to get started
+          </p>
+        </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Name
-            </label>
-            <div className="mt-2">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium mb-2">
+                Full Name
+              </label>
               <input
                 id="name"
                 name="name"
@@ -84,22 +67,17 @@ const SignUpPage = () => {
                 value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 outline-none transition"
               />
-              {errors.name && touched.name ? (
-                <p className="form-error">{errors.name}</p>
-              ) : null}
+              {errors.name && touched.name && (
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+              )}
             </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium mb-2">
+                Email Address
+              </label>
               <input
                 id="email"
                 name="email"
@@ -109,24 +87,17 @@ const SignUpPage = () => {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 outline-none transition"
               />
-              {errors.email && touched.email ? (
-                <p className="form-error">{errors.email}</p>
-              ) : null}
+              {errors.email && touched.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              )}
             </div>
-          </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2">
                 Password
               </label>
-            </div>
-            <div className="mt-2">
               <input
                 id="password"
                 name="password"
@@ -136,33 +107,31 @@ const SignUpPage = () => {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="w-full px-4 py-3 bg-gray-800 rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 outline-none transition"
               />
-              {errors.password && touched.password ? (
-                <p className="form-error">{errors.password}</p>
-              ) : null}
+              {errors.password && touched.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              )}
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              SignUp
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 rounded-lg font-medium text-white transition-colors duration-200"
+          >
+            Create Account
+          </button>
         </form>
 
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Already have an account?{" "}
+        <div className="text-center text-sm">
+          <span className="text-gray-400">Already registered? </span>
           <Link
             to="/login"
-            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            className="font-medium text-green-500 hover:text-green-400 transition-colors"
           >
-            Login
+            Sign in here
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
