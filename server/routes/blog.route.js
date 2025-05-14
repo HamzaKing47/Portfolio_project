@@ -14,9 +14,9 @@ const blogRouter = express.Router();
 
 blogRouter.post("/blog", authMiddleware, adminCheckMiddleware, addBlog);
 blogRouter.get("/blog-image/:id", getBlogImage);
-blogRouter.get("/blogs", authMiddleware, getAllBlogs);
-blogRouter.get("/blog/:id", authMiddleware, getBlogDetails);
-blogRouter.get("/blog/related/:id", authMiddleware, getRelatedBlogs);
+blogRouter.get("/blogs", getAllBlogs);
+blogRouter.get("/blog/:id", getBlogDetails);
+blogRouter.get("/blog/related/:id", getRelatedBlogs);
 blogRouter.delete(
   "/blog/:id",
   authMiddleware,
