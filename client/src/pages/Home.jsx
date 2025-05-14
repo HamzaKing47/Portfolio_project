@@ -39,7 +39,7 @@ const HomePage = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-snug">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-snug sm:mt-5">
                 Hi, I&apos;m{" "}
                 <span className="text-green-500">Ameer Hamza.</span>
                 <br />
