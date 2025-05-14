@@ -9,7 +9,7 @@ const HomePage = () => {
       <section className="bg-gray-900 text-white py-12 flex-grow">
         <div className="container mx-auto flex flex-col md:flex-row items-center px-4 md:px-4">
           {/* Profile Image */}
-          <div className="w-full md:w-1/3 flex justify-center md:justify-start md:mb-0 md:ml-[80px] border-4 border-green-500 rounded-2xl p-6">
+          <div className="w-full md:w-1/3 flex justify-center md:justify-start md:mb-0 md:ml-[80px] border-4 border-green-500 rounded-2xl p-6 mb-5">
             <div className="group relative w-[220px] sm:w-[260px] md:w-[290px] lg:w-[320px] xl:w-[360px] h-[294px] sm:h-[347px] md:h-[387px] lg:h-[427px] xl:h-[480px]">
               <img
                 src="/dp.jpg"
@@ -39,7 +39,7 @@ const HomePage = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-snug sm:mt-5">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-snug">
                 Hi, I&apos;m{" "}
                 <span className="text-green-500">Ameer Hamza.</span>
                 <br />
