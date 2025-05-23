@@ -2,7 +2,7 @@ import Blog from "../../models/blog.model.js";
 
 const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find().select("-coverImage");
+    const blogs = await Blog.find().select("-coverImage").sort({ createdAt: -1 });
 
     if (!blogs || blogs.length === 0) {
       return res.status(404).send({

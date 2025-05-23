@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 const addBlog = async (req, res) => {
   try {
     const { title, excerpt, description, tags } = req.fields;
-    const file = req.files.coverImage ? req.files.coverImage[0] : null;
+    const file = req.files.coverImage ? req.files.coverImage[0] : "placeholder.jpg";
 
     const newBlog = new Blog({
       title,
