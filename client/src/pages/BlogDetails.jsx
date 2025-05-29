@@ -16,7 +16,6 @@ const BlogDetails = () => {
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [isImageFullscreen, setIsImageFullscreen] = useState(false);
 
-
   useEffect(() => {
     const controller = new AbortController();
 
@@ -37,7 +36,6 @@ const BlogDetails = () => {
           }),
         ]);
 
-        // Adjusted for direct response data structure
         setPost(postResponse.data?.blog);
         setRelatedPosts(relatedResponse.data.relatedBlogs || []);
         setError(null);
@@ -91,7 +89,7 @@ const BlogDetails = () => {
     );
   }
 
-  if (!post && loading) {
+  if (!post) {
     return (
       <div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center">
         <div className="text-center p-6 max-w-md">
@@ -136,7 +134,6 @@ const BlogDetails = () => {
           </Link>
 
           <article className="bg-gray-800 rounded-xl p-6 md:p-8 mb-12">
-            {/* Modified image section in the return statement */}
             {post?.coverImage && (
               <>
                 <div
@@ -151,14 +148,12 @@ const BlogDetails = () => {
                   <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300" />
                 </div>
 
-                {/* Fullscreen overlay */}
                 {isImageFullscreen && (
                   <div
                     className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
                     onClick={() => setIsImageFullscreen(false)}
                   >
                     <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
-                      {/* Close Button */}
                       <button
                         onClick={() => setIsImageFullscreen(false)}
                         className="absolute top-4 right-4 bg-gray-800 bg-opacity-70 text-white rounded-full p-2 hover:bg-opacity-100 transition"
@@ -175,8 +170,6 @@ const BlogDetails = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>
-
-                      {/* Fullscreen Image */}
                       <img
                         src={`${API_URL}/blog-image/${post?._id}`}
                         alt={post?.title}
@@ -185,7 +178,6 @@ const BlogDetails = () => {
                     </div>
                   </div>
                 )}
-
               </>
             )}
 
@@ -216,7 +208,7 @@ const BlogDetails = () => {
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {post.tags
-                    .filter(tag => tag) // Remove empty/undefined tags
+                    .filter(tag => tag)
                     .flatMap(tag =>
                       (tag.toString()?.split(',') || [])
                         .map(t => t.trim())
@@ -240,23 +232,28 @@ const BlogDetails = () => {
               <h3 className="text-2xl font-bold mb-6">
                 Related <span className="text-green-500">Articles</span>
               </h3>
-              <div className="flex overflow-x-auto gap-6 p-4"> {/* Changed to flex container */}
+              <div className="flex overflow-x-auto gap-6 p-4 -mx-4">
                 {relatedPosts.map((relatedPost) => (
                   <motion.div
                     key={relatedPost._id}
                     whileHover={{ y: -5 }}
-                    className="min-w-[300px] bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:shadow-green-500/10 transition-all flex-shrink-0" // Added min-width and flex-shrink
+                    className="min-w-[300px] max-w-[300px] bg-gray-800 rounded-xl p-6 hover:shadow-lg hover:shadow-green-500/10 transition-all flex-shrink-0 flex flex-col h-full"
                   >
-                    <Link to={`/blog/${relatedPost._id}`} className="block">
-                      <h4 className="text-xl font-bold mb-2 text-gray-100 hover:text-green-500 transition-colors">
+                    <Link 
+                      to={`/blog/${relatedPost._id}`} 
+                      className="block flex flex-col h-full"
+                    >
+                      <h4 className="text-xl font-bold mb-2 text-gray-100 hover:text-green-500 transition-colors line-clamp-2 min-h-[3rem]">
                         {relatedPost.title}
                       </h4>
-                      <p className="text-gray-400 text-sm mb-3 line-clamp-2">
+                      <p className="text-gray-400 text-sm mb-4 flex-grow line-clamp-3">
                         {relatedPost.excerpt}
                       </p>
-                      <span className="text-green-500 text-sm font-medium">
-                        Read more →
-                      </span>
+                      <div className="mt-auto">
+                        <span className="text-green-500 text-sm font-medium">
+                          Read more →
+                        </span>
+                      </div>
                     </Link>
                   </motion.div>
                 ))}
@@ -272,7 +269,6 @@ const BlogDetails = () => {
               View All Articles
             </Link>
           </div>
-
         </motion.div>
       </section>
     </div>
