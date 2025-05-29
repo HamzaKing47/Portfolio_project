@@ -125,7 +125,7 @@ const Blog = () => {
                     delay: index * 0.1,
                   }}
                   className="bg-gray-800 rounded-xl p-6 transform transition-all duration-300 
-                    hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20"
+                    hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20 flex flex-col h-full"
                 >
                   {post.cover ? (
                     <div 
@@ -158,13 +158,16 @@ const Blog = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold mb-3 text-gray-100">
+                  <h3 className="text-xl font-bold mb-3 text-gray-100 line-clamp-2 min-h-[3rem]">
                     {post.title}
                   </h3>
-                  <p className="text-gray-400 mb-6">{post.excerpt}</p>
+                  
+                  <p className="text-gray-400 mb-6 line-clamp-3 flex-grow">
+                    {post.excerpt}
+                  </p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {post.tags?.slice(1).map((tag) => (
+                    {post.tags?.slice(1, 4).map((tag) => (
                       <span
                         key={tag}
                         className="px-3 py-1 bg-gray-700 text-gray-300 text-sm rounded-full"
@@ -172,12 +175,17 @@ const Blog = () => {
                         #{tag}
                       </span>
                     ))}
+                    {post.tags?.length > 4 && (
+                      <span className="px-3 py-1 bg-gray-700 text-gray-300 text-sm rounded-full">
+                        +{post.tags.length - 4} more
+                      </span>
+                    )}
                   </div>
 
                   <Link
                     to={`/blog/${post._id}`}
                     className="inline-flex items-center text-green-500 font-medium 
-                      hover:text-green-400 transition-colors"
+                      hover:text-green-400 transition-colors mt-auto"
                   >
                     Read More
                     <svg
