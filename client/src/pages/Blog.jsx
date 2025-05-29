@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { motion, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import API_URL from "../config";
 import Loading from "../components/Loading";
 
@@ -9,6 +9,7 @@ const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fullscreenImage, setFullscreenImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const blogRef = useRef(null);
@@ -55,42 +56,69 @@ const Blog = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [fullscreenImage]);
 
+  const openImage = (postId, imageElement) => {
+    setSelectedImage({
+      id: postId,
+      element: imageElement
+    });
+    setFullscreenImage(postId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans flex flex-col">
       {/* Fullscreen Image Overlay */}
-      {fullscreenImage && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
-          onClick={() => setFullscreenImage(null)}
-        >
-          <div className="max-w-full max-h-full relative">
-            <img
-              src={`${API_URL}/blog-image/${fullscreenImage}`}
-              alt="Fullscreen"
-              className="max-w-full max-h-[90vh] object-contain"
+      <AnimatePresence>
+        {fullscreenImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setFullscreenImage(null)}
+          >
+            <motion.div 
+              className="max-w-full max-h-full relative"
               onClick={(e) => e.stopPropagation()}
-            />
-            <button
-              onClick={() => setFullscreenImage(null)}
-              className="absolute top-4 right-4 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ 
+                duration: 0.4, 
+                ease: [0.22, 1, 0.36, 1] 
+              }}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <button
+                onClick={() => setFullscreenImage(null)}
+                className="absolute top-4 right-4 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors z-10"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              
+              <motion.img
+                src={`${API_URL}/blog-image/${fullscreenImage}`}
+                alt="Fullscreen"
+                className="max-w-full max-h-[90vh] object-contain"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <section className="container mx-auto px-4 py-12 flex-grow">
         <motion.div
@@ -130,12 +158,14 @@ const Blog = () => {
                   {post.cover ? (
                     <div 
                       className="relative h-48 rounded-lg mb-4 overflow-hidden cursor-pointer"
-                      onClick={() => setFullscreenImage(post._id)}
+                      onClick={(e) => openImage(post._id, e.target)}
                     >
-                      <img
+                      <motion.img
                         src={`${API_URL}/blog-image/${post._id}`}
                         alt={post.title}
                         className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.03 }}
+                        transition={{ duration: 0.3 }}
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300" />
                     </div>
