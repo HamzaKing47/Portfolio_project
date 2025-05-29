@@ -1,14 +1,14 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { motion, useInView } from "framer-motion";
 import API_URL from "../config";
-import Loading from "../components/Loading"; // <-- Import your Loading component
+import Loading from "../components/Loading";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fullscreenImage, setFullscreenImage] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const blogRef = useRef(null);
@@ -40,8 +40,58 @@ const Blog = () => {
     return () => controller.abort();
   }, [token, navigate]);
 
+  // Handle ESC key to close image
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setFullscreenImage(null);
+      }
+    };
+    
+    if (fullscreenImage) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [fullscreenImage]);
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans flex flex-col">
+      {/* Fullscreen Image Overlay */}
+      {fullscreenImage && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
+          onClick={() => setFullscreenImage(null)}
+        >
+          <div className="max-w-full max-h-full relative">
+            <img
+              src={`${API_URL}/blog-image/${fullscreenImage}`}
+              alt="Fullscreen"
+              className="max-w-full max-h-[90vh] object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setFullscreenImage(null)}
+              className="absolute top-4 right-4 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
       <section className="container mx-auto px-4 py-12 flex-grow">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,12 +128,16 @@ const Blog = () => {
                     hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20"
                 >
                   {post.cover ? (
-                    <div className="relative h-48 rounded-lg mb-4 overflow-hidden">
+                    <div 
+                      className="relative h-48 rounded-lg mb-4 overflow-hidden cursor-pointer"
+                      onClick={() => setFullscreenImage(post._id)}
+                    >
                       <img
                         src={`${API_URL}/blog-image/${post._id}`}
                         alt={post.title}
                         className="w-full h-full object-cover"
                       />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300" />
                     </div>
                   ) : (
                     <div className="h-48 bg-gray-700 rounded-lg mb-4 animate-pulse"></div>

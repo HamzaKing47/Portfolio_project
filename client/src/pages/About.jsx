@@ -14,6 +14,9 @@ const AboutPage = () => {
     { name: "Bootstrap", percentage: "90%" },
     { name: "NextJS", percentage: "50%" },
     { name: "TypeScript", percentage: "50%" },
+    { name: "PHP", percentage: "50%" },
+    { name: "SQL", percentage: "75%" },
+    
   ];
 
   const skillsRef = useRef(null);
