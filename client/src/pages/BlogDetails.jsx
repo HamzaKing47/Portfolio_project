@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import API_URL from "../config";
 import { format } from "date-fns";
 import Loading from "../components/Loading";
@@ -52,6 +52,7 @@ const BlogDetails = () => {
     };
 
     fetchBlogDetails();
+    return () => controller.abort();
   }, [id, token, navigate]);
 
   useEffect(() => {
@@ -107,6 +108,62 @@ const BlogDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans">
+      {/* Fullscreen Image Overlay with Smooth Transition */}
+      <AnimatePresence>
+        {isImageFullscreen && (
+          <motion.div
+            key="fullscreen-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setIsImageFullscreen(false)}
+          >
+            <motion.div 
+              className="max-w-full max-h-full relative"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ 
+                duration: 0.4, 
+                ease: [0.22, 1, 0.36, 1] 
+              }}
+            >
+              <button
+                onClick={() => setIsImageFullscreen(false)}
+                className="absolute top-4 right-4 bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-700 transition-colors z-10"
+                aria-label="Close image"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              
+              <motion.img
+                src={`${API_URL}/blog-image/${post?._id}`}
+                alt={post?.title}
+                className="max-w-full max-h-[90vh] object-contain"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <section className="container mx-auto px-4 py-12 max-w-5xl">
         <motion.div
           initial={{ opacity: 0 }}
@@ -135,50 +192,22 @@ const BlogDetails = () => {
 
           <article className="bg-gray-800 rounded-xl p-6 md:p-8 mb-12">
             {post?.coverImage && (
-              <>
-                <div
-                  className="relative h-64 md:h-80 rounded-lg mb-6 overflow-hidden cursor-pointer"
-                  onClick={() => setIsImageFullscreen(true)}
-                >
-                  <img
-                    src={`${API_URL}/blog-image/${post?._id}`}
-                    alt={post?.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300" />
-                </div>
-
-                {isImageFullscreen && (
-                  <div
-                    className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-                    onClick={() => setIsImageFullscreen(false)}
-                  >
-                    <div className="relative max-w-full max-h-full" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => setIsImageFullscreen(false)}
-                        className="absolute top-4 right-4 bg-gray-800 bg-opacity-70 text-white rounded-full p-2 hover:bg-opacity-100 transition"
-                        aria-label="Close image"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                      <img
-                        src={`${API_URL}/blog-image/${post?._id}`}
-                        alt={post?.title}
-                        className="max-w-full max-h-[90vh] object-contain rounded"
-                      />
-                    </div>
-                  </div>
-                )}
-              </>
+              <motion.div
+                className="relative h-64 md:h-80 rounded-lg mb-6 overflow-hidden cursor-pointer"
+                onClick={() => setIsImageFullscreen(true)}
+                whileHover={{ scale: 1.01 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.img
+                  src={`${API_URL}/blog-image/${post?._id}`}
+                  alt={post?.title}
+                  className="w-full h-full object-cover"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300" />
+              </motion.div>
             )}
 
             <div className="flex flex-wrap items-center justify-between mb-6">
